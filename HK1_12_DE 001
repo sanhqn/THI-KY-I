@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đề Ôn Tập Cuối Học Kỳ I - Toán 12</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["$", "$"], ["\\(", "\\)"]] },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <style>
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: #f1f5f9;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+    }
+  </style>
+</head>
+<body class="p-3 sm:p-6 text-slate-800">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Thông tin đề thi & học sinh -->
+    <div class="card p-6 border-t-4 border-emerald-600">
+      <div class="text-center">
+        <p class="text-xs sm:text-sm font-semibold uppercase tracking-wide text-slate-500">
+          Đề 4 • Đề Ôn Tập Cuối Học Kỳ I Năm Học 2025–2026
+        </p>
+        <h1 class="text-xl sm:text-2xl font-bold text-emerald-900 mt-1">
+          BÀI KIỂM TRA TRỰC TUYẾN — MÔN TOÁN 12
+        </h1>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">
+            Họ và tên học sinh <span class="text-red-500">*</span>
+          </label>
+          <input id="hoTen" type="text" placeholder="Nhập họ và tên..."
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1">
+            Lớp <span class="text-red-500">*</span>
+          </label>
+          <input id="lop" type="text" placeholder="Ví dụ: 12A1"
+            class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-500" />
+        </div>
+      </div>
+    </div>
+
+    <!-- PHẦN I -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold text-emerald-800 border-b border-slate-200 pb-2 mb-4">
+        PHẦN I. Câu trắc nghiệm nhiều phương án lựa chọn (12 câu)
+      </h2>
+      <div id="phan1-container" class="space-y-4"></div>
+    </div>
+
+    <!-- PHẦN II -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold text-emerald-800 border-b border-slate-200 pb-2 mb-4">
+        PHẦN II. Câu trắc nghiệm đúng sai (4 câu)
+      </h2>
+      <div id="phan2-container" class="space-y-6"></div>
+    </div>
+
+    <!-- PHẦN III -->
+    <div class="card p-6">
+      <h2 class="text-lg font-bold text-emerald-800 border-b border-slate-200 pb-2 mb-4">
+        PHẦN III. Câu trắc nghiệm trả lời ngắn (6 câu)
+      </h2>
+      <div id="phan3-container" class="space-y-4"></div>
+    </div>
+
+    <!-- Nút nộp bài -->
+    <div class="text-center pb-4">
+      <button id="btnNop" type="button" onclick="nopBai()"
+        class="bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-400 text-white font-bold px-8 py-3 rounded-xl shadow transition">
+        NỘP BÀI & GỬI KẾT QUẢ VỀ GOOGLE SHEET
+      </button>
+    </div>
+
+    <!-- Hộp kết quả -->
+    <div id="ketQuaBox" class="hidden card p-6 border-2 border-emerald-600 bg-emerald-50 mb-8"></div>
+  </div>
+
+  <script>
+    // DÁN LINK WEB APP GOOGLE APPS SCRIPT CỦA THẦY VÀO ĐÂY:
+    const SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbz8WrN_Lt_essqBcO2eXrL0K7tweIo7v6oDsd8YjqScoN1szfdasavAWlbjqupd0ntapw/exec";
+    const MA_DE = "HK1_12_DE 001";
+
+    // Lưu ý: Thầy kiểm tra lại đáp án chuẩn trong mảng ans trước khi mở đề cho học sinh
+    const phan1Data = [
+      {
+        key: "Câu 1",
+        q: "Câu 1. Cho hàm số $f(x)$ có bảng biến thiên với các mốc $x$ tại $-1; 0; 1$ và $f'(x)=0$ tại các điểm này. Hàm số đã cho đồng biến trên khoảng nào dưới đây?",
+        opts: ["A. $(-\infty;-1)$.", "B. $(-1;0)$.", "C. $(-1;1)$.", "D. $(0;1)$."],
+        ans: 2
+      },
+      {
+        key: "Câu 2",
+        q: "Câu 2. Cho hàm số $y=f(x)$ liên tục trên $\\mathbb{R}$ và có bảng xét dấu $f'(x)$ qua các mốc $-1; 2; 4$. Hàm số $y=f(x)$ có bao nhiêu điểm cực trị?",
+        opts: ["A. $2$.", "B. $3$.", "C. $0$.", "D. $1$."],
+        ans: 0
+      },
+      {
+        key: "Câu 3",
+        q: "Câu 3. Cho hàm số $f(x)$ có bảng biến thiên với các mốc $x$ tại $-1; 1$. Tổng số đường tiệm cận ngang và tiệm cận đứng của đồ thị hàm số đã cho là:",
+        opts: ["A. $3$.", "B. $4$.", "C. $1$.", "D. $2$."],
+        ans: 3
+      },
+      {
+        key: "Câu 4",
+        q: "Câu 4. Đường cong bên là đồ thị của hàm số nào dưới đây? (Đồ thị bậc 3 có nhánh phải đi lên, cắt trục tung tại tung độ âm)",
+        opts: [
+          "A. $y=-x^3+12x+2$.",
+          "B. $y=-x^4+2x^2+1$.",
+          "C. $y=x^3-3x-2$.",
+          "D. $y=x^3-12x+2$."
+        ],
+        ans: 2
+      },
+      {
+        key: "Câu 5",
+        q: "Câu 5. Dữ liệu về tốc độ của $100$ xe ô tô: $[60;70)$: $10$; $[70;80)$: $20$; $[80;90)$: $20$; $[90;100)$: $35$; $[100;110)$: $15$. Khoảng biến thiên của mẫu số liệu trên là bao nhiêu?",
+        opts: ["A. $40$.", "B. $50$.", "C. $60$.", "D. $70$."],
+        ans: 1
+      },
+      {
+        key: "Câu 6",
+        q: "Câu 6. Thời gian làm bài lớp 12A: $[25;30)$: $8$; $[30;35)$: $16$; $[35;40)$: $4$; $[40;45)$: $2$. Sớm nhất $27$ phút, muộn nhất $43$ phút. Khẳng định nào sau đây đúng?",
+        opts: [
+          "A. Khoảng biến thiên của mẫu số liệu ghép nhóm là $20$ phút.",
+          "B. Khoảng biến thiên của mẫu số liệu ghép nhóm là $14$ phút.",
+          "C. Khoảng biến thiên của mẫu số liệu gốc là $20$ phút.",
+          "D. Khoảng biến thiên của mẫu số liệu ghép nhóm nhỏ hơn khoảng biến thiên của mẫu số liệu gốc."
+        ],
+        ans: 0
+      },
+      {
+        key: "Câu 7",
+        q: "Câu 7. Cân nặng (kg) của một số quả mít: $[4;6)$: $6$; $[6;8)$: $12$; $[8;10)$: $19$; $[10;12)$: $9$; $[12;14)$: $4$. Phương sai của mẫu số liệu ghép nhóm trên gần với số nào nhất?",
+        opts: ["A. $4,8$.", "B. $4,9$.", "C. $4,7$.", "D. $4,6$."],
+        ans: 0
+      },
+      {
+        key: "Câu 8",
+        q: "Câu 8. Thống kê điểm trung bình hai lớp A và B: $[5;6)$: A=$1$, B=$0$; $[6;7)$: A=$0$, B=$6$; $[7;8)$: A=$11$, B=$8$; $[8;9)$: A=$22$, B=$14$; $[9;10)$: A=$6$, B=$12$. Tìm khẳng định đúng:",
+        opts: [
+          "A. Điểm trung bình của lớp A phân tán hơn điểm trung bình của lớp B.",
+          "B. Điểm trung bình của lớp B phân tán hơn điểm trung bình của lớp A.",
+          "C. Độ phân tán về điểm trung bình của hai lớp như nhau.",
+          "D. Phương sai của mẫu số liệu về điểm trung bình của lớp là $0,8$."
+        ],
+        ans: 0
+      },
+      {
+        key: "Câu 9",
+        q: "Câu 9. Cho hình hộp $ABCD.A'B'C'D'$. Tìm khẳng định đúng:",
+        opts: [
+          "A. $\\vec{AB}+\\vec{CD}=\\vec{A'B'}+\\vec{BB'}$.",
+          "B. $\\vec{AB}=\\vec{CD}$.",
+          "C. $\\vec{AB}-\\vec{BC'}=\\vec{BD'}$.",
+          "D. $\\vec{AB}+\\vec{AD}+\\vec{AA'}=\\vec{AC'}$."
+        ],
+        ans: 3
+      },
+      {
+        key: "Câu 10",
+        q: "Câu 10. Cho hình lăng trụ tam giác đều $ABC.A'B'C'$ có $M$ là trung điểm của cạnh $BC$. Góc giữa hai vectơ $\\vec{AM}$ và $\\vec{BC'}$ bằng:",
+        opts: ["A. $45^{\\circ}$.", "B. $90^{\\circ}$.", "C. $120^{\\circ}$.", "D. $30^{\\circ}$."],
+        ans: 1
+      },
+      {
+        key: "Câu 11",
+        q: "Câu 11. Trong không gian $Oxyz$, cho $M(1;1;1)$, $N(2;3;4)$, $P(7;7;5)$. Tìm tọa độ điểm $Q$ để tứ giác $MNPQ$ là hình bình hành:",
+        opts: ["A. $Q(6;5;2)$.", "B. $Q(6;-5;2)$.", "C. $Q(-6;5;2)$.", "D. $Q(6;5;-2)$."],
+        ans: 0
+      },
+      {
+        key: "Câu 12",
+        q: "Câu 12. Trong không gian $Oxyz$, cho tam giác $ABC$ biết $A(2;4;-3)$ có trọng tâm $G(2;1;0)$. Xác định tọa độ $\\vec{AB}+\\vec{AC}$:",
+        opts: [
+          "A. $\\vec{AB}+\\vec{AC}=(0;-9;9)$.",
+          "B. $\\vec{AB}+\\vec{AC}=(0;9;9)$.",
+          "C. $\\vec{AB}+\\vec{AC}=(0;9;-9)$.",
+          "D. $\\vec{AB}+\\vec{AC}=(9;9;9)$."
+        ],
+        ans: 0
+      }
+    ];
+
+    const phan2Data = [
+      {
+        id: "p2_c1",
+        title: "Câu 1. Cho hàm số $y=f(x)$ có bảng biến thiên với các cực trị tại $x=-1$ và $x=2$.",
+        items: [
+          { code: "a", text: "a) Hàm số không đạt cực tiểu tại điểm $x=2$.", ans: "S" },
+          { code: "b", text: "b) Đồ thị hàm số cắt trục hoành tại ba điểm phân biệt.", ans: "D" },
+          { code: "c", text: "c) Hàm số nghịch biến trong khoảng $(-1;2)$.", ans: "D" },
+          { code: "d", text: "d) Giá trị nhỏ nhất của hàm số là $y=-1$.", ans: "S" }
+        ]
+      },
+      {
+        id: "p2_c2",
+        title: "Câu 2. Số dân của một phường sau $t$ năm kề từ tháng 01/1970 ước tính bởi $f(t)=\\frac{26t+10}{t+5}$ (nghìn người).",
+        items: [
+          { code: "a", text: "a) Số dân của phường A vào tháng 01 năm 1980 là $18$ nghìn người.", ans: "S" },
+          { code: "b", text: "b) Số dân của phường A vào tháng 01 năm 2005 là $24$ nghìn người.", ans: "D" },
+          { code: "c", text: "c) Số dân của phường A từ tháng 01/1995 đến tháng 01/2025 tăng $2$ nghìn người.", ans: "D" },
+          { code: "d", text: "d) Đạo hàm của $f$ biểu thị tốc độ tăng dân số; vào tháng 01/1998 tốc độ tăng là $0,125$ nghìn người/năm.", ans: "D" }
+        ]
+      },
+      {
+        id: "p2_c3",
+        title: "Câu 3. Trong không gian $Oxyz$, cho tứ diện $ABCD$ với $A(5;2;1)$, $B(9;-2;3)$, $C(2;1;1)$, $D(1;1;1)$.",
+        items: [
+          { code: "a", text: "a) $G$ là trọng tâm tứ diện, $G'$ là trọng tâm $\\triangle BCD$ ta có $\\vec{AC}+\\vec{AB}+\\vec{AD}=4\\vec{GG'}$.", ans: "D" },
+          { code: "b", text: "b) $G$ là trọng tâm tứ diện, ta có $\\vec{AC}+\\vec{AB}+\\vec{AD}=4\\vec{AG}$.", ans: "D" },
+          { code: "c", text: "c) Tọa độ vectơ $\\vec{GG'}\\left(-\\frac{1}{4};\\frac{1}{2};\\frac{1}{6}\\right)$.", ans: "D" },
+          { code: "d", text: "d) Điểm $M \\in (Oyz)$ sao cho $|MA-MB|$ lớn nhất có tọa độ $M\\left(0;7;-\\frac{3}{2}\\right)$.", ans: "S" }
+        ]
+      },
+      {
+        id: "p2_c4",
+        title: "Câu 4. Vệ tinh $A(0;4;5)$, $B(0;5;4)$, $C(1;3;3)$, $D(1;-1;3)$ và trung tâm kiểm soát $M(a;b;c)$ (đơn vị: km, $(Oxy)$ là mặt đất).",
+        items: [
+          { code: "a", text: "a) Vệ tinh $D$ tạo với hai vệ tinh $A$ và $B$ một góc khoảng $78^{\\circ}$.", ans: "D" },
+          { code: "b", text: "b) Vị trí của vệ tinh $C$ cách vị trí của vệ tinh $A$ là $4\\text{ km}$.", ans: "S" },
+          { code: "c", text: "c) Vị trí bốn vệ tinh $A, B, C, D$ nằm trên cùng một mặt phẳng.", ans: "S" },
+          { code: "d", text: "d) Chiều cao của trung tâm kiểm soát $M$ là $1\\text{ km}$ để $AM=BM=5\\text{ km}$, $CM=DM=31\\text{ km}$.", ans: "S" }
+        ]
+      }
+    ];
+
+    const phan3Data = [
+      {
+        id: "p3_1",
+        label: "Câu 1",
+        q: "Câu 1. Giá bán mỗi điện thoại là $4800-4x$ (nghìn đồng), $x \\in \\mathbb{N}^*$, $x < 2000$. Đại lý phải nhập bao nhiêu chiếc để doanh thu của hãng lớn nhất?",
+        ans: 600
+      },
+      {
+        id: "p3_2",
+        label: "Câu 2",
+        q: "Câu 2. Cho đồ thị hàm số $y=f(x)$. Có bao nhiêu giá trị nguyên $m \\in [-2024;2025]$ để $2f(x)+x^2 > 4x+m$ nghiệm đúng với mọi $x \\in (-1;3)$?",
+        ans: 0
+      },
+      {
+        id: "p3_3",
+        label: "Câu 3",
+        q: "Câu 3. Số người nhiễm bệnh $f(t)=-\\frac{t^3}{3}+17t^2+580t$, $t \\in [0;30]$. Trong $30$ ngày đầu tiên, có bao nhiêu ngày tốc độ truyền bệnh $f'(t) > 860$?",
+        ans: 5
+      },
+      {
+        id: "p3_4",
+        label: "Câu 4",
+        q: "Câu 4. Cho $A(2;-3;7)$, $B(0;4;1)$, $C(3;0;5)$, $D(3;3;3)$. $M \\in (Oyz)$ sao cho $|\\vec{MA}+\\vec{MB}+\\vec{MC}+\\vec{MD}|$ nhỏ nhất, $M(a;b;c)$. Tính $a+b+c$.",
+        ans: 4
+      },
+      {
+        id: "p3_5",
+        label: "Câu 5",
+        q: "Câu 5. Cho hình hộp $ABCD.A'B'C'D'$ có $A(1;0;1)$, $B(2;1;2)$, $D(1;-1;1)$, $C'(4;5;-5)$. Tọa độ $A'(a;b;c)$. Tính $abc$.",
+        ans: -90
+      },
+      {
+        id: "p3_6",
+        label: "Câu 6",
+        q: "Câu 6. Quãng đường lái xe: $[50;100)$: $5$; $[100;150)$: $10$; $[150;200)$: $9$; $[200;250)$: $4$; $[250;300)$: $2$. Độ lệch chuẩn của mẫu số liệu ghép nhóm là bao nhiêu? (làm tròn đến hàng phần trăm)",
+        ans: 55.68
+      }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const p1Div = document.getElementById("phan1-container");
+      phan1Data.forEach((item, idx) => {
+        const opts = item.opts.map((opt, oIdx) => `
+          <label class="flex items-center gap-2 p-2 rounded-lg hover:bg-emerald-50 cursor-pointer">
+            <input type="radio" name="p1_${idx}" value="${oIdx}" class="w-4 h-4 text-emerald-600" />
+            <span>${opt}</span>
+          </label>
+        `).join("");
+        p1Div.insertAdjacentHTML("beforeend", `
+          <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+            <p class="font-medium text-slate-800 mb-2">${item.q}</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${opts}</div>
+          </div>
+        `);
+      });
+
+      const p2Div = document.getElementById("phan2-container");
+      phan2Data.forEach(group => {
+        const rows = group.items.map(sub => `
+          <tr>
+            <td class="border border-slate-300 p-2.5">${sub.text}</td>
+            <td class="border border-slate-300 p-2 text-center">
+              <input type="radio" name="${group.id}_${sub.code}" value="D" class="w-4 h-4" />
+            </td>
+            <td class="border border-slate-300 p-2 text-center">
+              <input type="radio" name="${group.id}_${sub.code}" value="S" class="w-4 h-4" />
+            </td>
+          </tr>
+        `).join("");
+
+        p2Div.insertAdjacentHTML("beforeend", `
+          <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+            <p class="font-semibold text-slate-800 mb-3">${group.title}</p>
+            <div class="overflow-x-auto bg-white">
+              <table class="w-full border-collapse border border-slate-300 text-sm">
+                <thead>
+                  <tr class="bg-slate-100">
+                    <th class="border border-slate-300 p-2 text-left">Mệnh đề</th>
+                    <th class="border border-slate-300 p-2 w-20 text-center">Đúng</th>
+                    <th class="border border-slate-300 p-2 w-20 text-center">Sai</th>
+                  </tr>
+                </thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+          </div>
+        `);
+      });
+
+      const p3Div = document.getElementById("phan3-container");
+      phan3Data.forEach(item => {
+        p3Div.insertAdjacentHTML("beforeend", `
+          <div class="p-3.5 rounded-lg bg-slate-50 border border-slate-200">
+            <p class="font-medium text-slate-800 mb-2">${item.q}</p>
+            <input id="${item.id}" type="text" placeholder="Nhập đáp số..."
+              class="w-full sm:w-64 border border-slate-300 rounded-lg px-3 py-1.5 bg-white focus:outline-none focus:border-emerald-500" />
+          </div>
+        `);
+      });
+
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        window.MathJax.typesetPromise();
+      }
+    });
+
+    async function nopBai() {
+      const hoTen = document.getElementById("hoTen").value.trim();
+      const lop = document.getElementById("lop").value.trim();
+      if (!hoTen || !lop) {
+        alert("Vui lòng nhập đầy đủ Họ và tên và Lớp trước khi nộp bài.");
+        return;
+      }
+
+      if (!SHEET_WEBAPP_URL || SHEET_WEBAPP_URL.includes("YOUR_DEPLOYMENT_ID")) {
+        alert("Thầy chưa dán đường link Web App Google Apps Script vào biến SHEET_WEBAPP_URL.");
+        return;
+      }
+
+      const labels = ["A", "B", "C", "D"];
+      const chiTiet = [];
+
+      // Phần I: 12 câu, mỗi câu 0,25 điểm => tối đa 3,0 điểm
+      let dungP1 = 0;
+      phan1Data.forEach((item, idx) => {
+        const chosen = document.querySelector(`input[name="p1_${idx}"]:checked`);
+        const val = chosen ? parseInt(chosen.value, 10) : -1;
+        chiTiet.push(`${item.key}: ${val >= 0 ? labels[val] : "Trống"}`);
+        if (val === item.ans) dungP1++;
+      });
+      const diemP1 = Number((dungP1 * 0.25).toFixed(2));
+
+      // Phần II: 4 câu, mỗi câu tối đa 1,0 điểm (1 ý: 0.1; 2 ý: 0.25; 3 ý: 0.5; 4 ý: 1.0)
+      const thangP2 = [0, 0.1, 0.25, 0.5, 1.0];
+      let diemP2 = 0;
+      let tongYThuongP2 = 0;
+      phan2Data.forEach(group => {
+        let dungY = 0;
+        group.items.forEach(sub => {
+          const chosen = document.querySelector(`input[name="${group.id}_${sub.code}"]:checked`);
+          const val = chosen ? chosen.value : "Trống";
+          chiTiet.push(`${group.id}_${sub.code}: ${val}`);
+          if (val === sub.ans) dungY++;
+        });
+        tongYThuongP2 += dungY;
+        diemP2 += thangP2[dungY] || 0;
+      });
+      diemP2 = Number(diemP2.toFixed(2));
+
+      // Phần III: 6 câu, mỗi câu 0,5 điểm => tối đa 3,0 điểm
+      let dungP3 = 0;
+      phan3Data.forEach(item => {
+        const raw = document.getElementById(item.id).value.trim().replace(",", ".");
+        chiTiet.push(`${item.label}: ${raw || "Trống"}`);
+        const num = parseFloat(raw);
+        if (!Number.isNaN(num) && Math.abs(num - item.ans) <= 0.05) {
+          dungP3++;
+        }
+      });
+      const diemP3 = Number((dungP3 * 0.5).toFixed(2));
+
+      const tongDiem = Number((diemP1 + diemP2 + diemP3).toFixed(2));
+
+      const btn = document.getElementById("btnNop");
+      btn.disabled = true;
+      btn.textContent = "ĐANG GỬI KẾT QUẢ VỀ GOOGLE SHEET...";
+
+      const payload = {
+        hoTen,
+        lop,
+        maDe: MA_DE,
+        diemP1,
+        diemP2,
+        diemP3,
+        tongDiem,
+        chiTiet: chiTiet.join(" | ")
+      };
+
+      try {
+        await fetch(SHEET_WEBAPP_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        btn.textContent = "ĐÃ NỘP BÀI THÀNH CÔNG";
+        btn.classList.remove("bg-emerald-600", "hover:bg-emerald-700");
+        btn.classList.add("bg-blue-600");
+
+        const box = document.getElementById("ketQuaBox");
+        box.classList.remove("hidden");
+        box.innerHTML = `
+          <h3 class="text-lg font-bold text-emerald-900 mb-2">Đã chấm điểm và gửi kết quả về Google Sheet</h3>
+          <p class="text-sm text-slate-700"><strong>Học sinh:</strong> ${hoTen} — <strong>Lớp:</strong> ${lop} (${MA_DE})</p>
+          <ul class="list-disc ml-5 mt-2 space-y-1 text-sm text-slate-800">
+            <li>Điểm Phần I: <strong>${diemP1} / 3.0</strong> (${dungP1}/${phan1Data.length} câu đúng)</li>
+            <li>Điểm Phần II: <strong>${diemP2} / 4.0</strong> (${tongYThuongP2}/16 ý đúng)</li>
+            <li>Điểm Phần III: <strong>${diemP3} / 3.0</strong> (${dungP3}/${phan3Data.length} câu đúng)</li>
+          </ul>
+          <p class="text-base font-bold text-emerald-900 mt-3">Tổng điểm: ${tongDiem} / 10.0</p>
+        `;
+      } catch (err) {
+        alert("Gửi dữ liệu chưa thành công. Vui lòng thử lại.");
+        btn.disabled = false;
+        btn.textContent = "NỘP BÀI & GỬI KẾT QUẢ VỀ GOOGLE SHEET";
+      }
+    }
+  </script>
+</body>
+</html>
