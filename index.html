@@ -68,4 +68,222 @@
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <h2 id="selected-grade-heading" class="text-lg font-extrabold text-slate-900"></h2>
         <button type="button" onclick="resetHeThong()"
-          class="text-xs font-semibold px-3
+          class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">
+          Đổi khối lớp
+        </button>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
+          Bước 2: Chọn giai đoạn kiểm tra
+        </p>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+          <button type="button" data-stage="GK1" onclick="chonGiaiDoan('GK1')"
+            class="stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition">
+            Giữa kỳ 1
+          </button>
+          <button type="button" data-stage="CK1" onclick="chonGiaiDoan('CK1')"
+            class="stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition">
+            Cuối kỳ 1
+          </button>
+          <button type="button" data-stage="GK2" onclick="chonGiaiDoan('GK2')"
+            class="stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition">
+            Giữa kỳ 2
+          </button>
+          <button type="button" data-stage="CK2" onclick="chonGiaiDoan('CK2')"
+            class="stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition">
+            Cuối kỳ 2
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BƯỚC 3: DANH SÁCH ĐỀ -->
+    <section id="exams-section" class="hidden space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 id="exams-list-title" class="text-lg font-extrabold text-slate-900"></h3>
+        <span id="exams-count-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-800"></span>
+      </div>
+      <div id="exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    </section>
+
+    <!-- Trạng thái ban đầu -->
+    <div id="initial-hint" class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-9 text-center">
+      <div class="text-3xl mb-2">🎯</div>
+      <p class="font-bold text-slate-700">Hãy chọn Khối 10, Khối 11 hoặc Khối 12 ở Bước 1</p>
+      <p class="text-sm text-slate-500 mt-1">
+        Sau đó bấm chọn <strong>Giữa kỳ 1</strong>, <strong>Cuối kỳ 1</strong>, <strong>Giữa kỳ 2</strong> hoặc <strong>Cuối kỳ 2</strong> để xem danh sách đề.
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-slate-200 py-5 px-4 text-center text-xs sm:text-sm text-slate-500">
+    <p>© 2026 Cổng Khảo Thí Trực Tuyến Môn Toán — Khối 10, 11, 12</p>
+  </footer>
+
+  <script>
+    // =========================================================================
+    // KHO DỮ LIỆU ĐỀ KHẢO THÍ: [Khoi: "10"|"11"|"12"] -> [GiaiDoan: GK1|CK1|GK2|CK2]
+    // Thầy chỉ cần sửa hoặc thêm đề vào từng mục tương ứng
+    // =========================================================================
+    const KHO_DE_KHAO_THI = {
+      "10": {
+        GK1: [
+          { maDe: "K10-GK1-01", tenDe: "Đề khảo sát Giữa kỳ 1 — Số 1", moTa: "Mệnh đề, tập hợp, bất phương trình bậc nhất hai ẩn và hệ bất phương trình.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" },
+          { maDe: "K10-GK1-02", tenDe: "Đề khảo sát Giữa kỳ 1 — Số 2", moTa: "Luyện tập bài toán thực tế tối ưu và trắc nghiệm đúng/sai.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK1: [
+          { maDe: "K10-CK1-01", tenDe: "Đề cuối kỳ 1 — THPT Nguyễn Thái Bình", moTa: "Vectơ trong mặt phẳng tọa độ, tích vô hướng và hệ thức lượng tam giác.", thoiGian: "90 phút", trangThai: "Sẵn sàng", link: "KYI-VT.html" },
+          { maDe: "K10-CK1-02", tenDe: "Đề ôn cuối kỳ 1 — Số 2", moTa: "Hàm số bậc hai, dấu tam thức bậc hai và phương pháp tọa độ.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        GK2: [
+          { maDe: "K10-GK2-01", tenDe: "Đề giữa kỳ 2 — Số 1", moTa: "Quy tắc đếm, hoán vị, chỉnh hợp, tổ hợp và nhị thức Newton.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK2: [
+          { maDe: "K10-CK2-01", tenDe: "Đề cuối kỳ 2 — Số 1", moTa: "Phương pháp tọa độ trong mặt phẳng, đường thẳng, đường tròn, ba đường conic và xác suất.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ]
+      },
+      "11": {
+        GK1: [
+          { maDe: "K11-GK1-01", tenDe: "Đề giữa kỳ 1 — Số 1", moTa: "Hàm số lượng giác, phương trình lượng giác và dãy số.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK1: [
+          { maDe: "K11-CK1-01", tenDe: "Đề cuối kỳ 1 — Số 1", moTa: "Cấp số cộng, cấp số nhân, giới hạn, hàm số liên tục và quan hệ song song.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        GK2: [
+          { maDe: "K11-GK2-01", tenDe: "Đề giữa kỳ 2 — Số 1", moTa: "Hàm số mũ, hàm số lôgarit và quan hệ vuông góc trong không gian.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK2: [
+          { maDe: "K11-CK2-01", tenDe: "Đề cuối kỳ 2 — Số 1", moTa: "Đạo hàm, quy tắc tính đạo hàm, góc và khoảng cách trong không gian, biến cố.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ]
+      },
+      "12": {
+        GK1: [
+          { maDe: "K12-GK1-01", tenDe: "Đề giữa kỳ 1 — Số 1", moTa: "Ứng dụng đạo hàm khảo sát sự biến thiên, cực trị, GTLN-GTNN và tiệm cận.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK1: [
+          { maDe: "K12-CK1-01", tenDe: "Đề cuối kỳ 1 — Số 1", moTa: "Khảo sát hàm số, vectơ và hệ trục tọa độ Oxyz, số đặc trưng mẫu ghép nhóm.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        GK2: [
+          { maDe: "K12-GK2-01", tenDe: "Đề giữa kỳ 2 — Số 1", moTa: "Nguyên hàm, tích phân, ứng dụng hình học và phương trình mặt phẳng.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ],
+        CK2: [
+          { maDe: "K12-CK2-01", tenDe: "Đề cuối kỳ 2 — Số 1", moTa: "Tổng hợp nguyên hàm - tích phân, hình học Oxyz và xác suất có điều kiện.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
+        ]
+      }
+    };
+    // =========================================================================
+
+    const TEN_GIAI_DOAN = {
+      GK1: "Giữa kỳ 1",
+      CK1: "Cuối kỳ 1",
+      GK2: "Giữa kỳ 2",
+      CK2: "Cuối kỳ 2"
+    };
+
+    let state = {
+      khoi: null,
+      giaiDoan: "CK1"
+    };
+
+    function chonKhoi(khoi) {
+      state.khoi = khoi;
+      document.getElementById("initial-hint").classList.add("hidden");
+      document.getElementById("milestone-section").classList.remove("hidden");
+      document.getElementById("exams-section").classList.remove("hidden");
+      document.getElementById("selected-grade-heading").textContent = `Đang xem đề khảo thí — Toán Khối ${khoi}`;
+
+      capNhatNut();
+      renderDanhSachDe();
+    }
+
+    function chonGiaiDoan(giaiDoan) {
+      state.giaiDoan = giaiDoan;
+      capNhatNut();
+      renderDanhSachDe();
+    }
+
+    function resetHeThong() {
+      state.khoi = null;
+      document.getElementById("milestone-section").classList.add("hidden");
+      document.getElementById("exams-section").classList.add("hidden");
+      document.getElementById("initial-hint").classList.remove("hidden");
+      capNhatNut();
+    }
+
+    function capNhatNut() {
+      document.querySelectorAll(".grade-btn").forEach(btn => {
+        const active = btn.dataset.grade === state.khoi;
+        btn.className = active
+          ? "grade-btn p-4 rounded-xl border-2 text-left transition border-blue-600 bg-blue-50 ring-2 ring-blue-500/20"
+          : "grade-btn p-4 rounded-xl border-2 text-left transition border-slate-200 hover:border-blue-400";
+      });
+
+      document.querySelectorAll(".stage-btn").forEach(btn => {
+        const active = btn.dataset.stage === state.giaiDoan;
+        btn.className = active
+          ? "stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition bg-blue-600 text-white border-blue-600 shadow-sm"
+          : "stage-btn py-3 px-4 rounded-xl text-sm font-bold border transition bg-slate-50 text-slate-700 border-slate-200 hover:bg-blue-50 hover:border-blue-300";
+      });
+    }
+
+    function renderDanhSachDe() {
+      if (!state.khoi) return;
+
+      const tenGiaiDoan = TEN_GIAI_DOAN[state.giaiDoan] || state.giaiDoan;
+      const danhSach = (KHO_DE_KHAO_THI[state.khoi]?.[state.giaiDoan]) || [];
+
+      document.getElementById("exams-list-title").textContent =
+        `Khối ${state.khoi} • ${tenGiaiDoan}`;
+      document.getElementById("exams-count-badge").textContent =
+        `${danhSach.length} đề`;
+
+      const grid = document.getElementById("exams-grid");
+      if (danhSach.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500">
+            Chưa có đề nào trong mục ${tenGiaiDoan} của Khối ${state.khoi}.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = danhSach.map(de => {
+        const isReady = de.trangThai === "Sẵn sàng" && de.link && de.link !== "#";
+        const btnHtml = isReady
+          ? `<a href="${de.link}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl transition">
+               Vào làm bài →
+             </a>`
+          : `<button disabled class="block w-full text-center bg-slate-200 text-slate-500 font-semibold py-2.5 px-4 rounded-xl cursor-not-allowed">
+               Chưa mở đề
+             </button>`;
+
+        return `
+          <div class="card-hover bg-white rounded-2xl border border-slate-200 border-t-4 border-t-blue-600 p-5 flex flex-col justify-between shadow-sm">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-2.5">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-50 text-blue-800">
+                  ${de.maDe}
+                </span>
+                <span class="text-xs font-semibold ${isReady ? 'text-emerald-600' : 'text-amber-600'}">
+                  ● ${de.trangThai}
+                </span>
+              </div>
+              <h4 class="text-base font-bold text-slate-900 mb-1.5">${de.tenDe}</h4>
+              <p class="text-sm text-slate-600 leading-relaxed mb-4">${de.moTa}</p>
+            </div>
+            <div>
+              <div class="text-xs text-slate-500 border-t border-slate-100 pt-2.5 mb-3">
+                ⏱️ Thời gian: ${de.thoiGian}
+              </div>
+              ${btnHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
