@@ -31,7 +31,7 @@
         CỔNG KHẢO THÍ TRỰC TUYẾN — KHỐI 10, 11, 12
       </h1>
       <p class="text-sm sm:text-base text-blue-100 mt-2">
-        Đề Giữa kỳ & Cuối kỳ • Học kỳ I & Học kỳ II
+        Giữa kỳ 1 • Cuối kỳ 1 • Giữa kỳ 2 • Cuối kỳ 2
       </p>
     </div>
   </header>
@@ -42,280 +42,30 @@
     <!-- BƯỚC 1: CHỌN KHỐI -->
     <section class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
       <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">
-        1. Chọn khối lớp
+        Bước 1: Chọn khối lớp
       </h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="grade-buttons">
         <button type="button" data-grade="10" onclick="chonKhoi('10')"
           class="grade-btn p-4 rounded-xl border-2 text-left transition border-slate-200 hover:border-blue-400">
           <div class="font-extrabold text-lg text-slate-900">📘 Toán Khối 10</div>
-          <div class="text-xs text-slate-500 mt-0.5">Học kỳ I & Học kỳ II • Giữa kỳ & Cuối kỳ</div>
+          <div class="text-xs text-slate-500 mt-0.5">GK1 • CK1 • GK2 • CK2</div>
         </button>
         <button type="button" data-grade="11" onclick="chonKhoi('11')"
           class="grade-btn p-4 rounded-xl border-2 text-left transition border-slate-200 hover:border-indigo-400">
           <div class="font-extrabold text-lg text-slate-900">📗 Toán Khối 11</div>
-          <div class="text-xs text-slate-500 mt-0.5">Học kỳ I & Học kỳ II • Giữa kỳ & Cuối kỳ</div>
+          <div class="text-xs text-slate-500 mt-0.5">GK1 • CK1 • GK2 • CK2</div>
         </button>
         <button type="button" data-grade="12" onclick="chonKhoi('12')"
           class="grade-btn p-4 rounded-xl border-2 text-left transition border-slate-200 hover:border-emerald-400">
           <div class="font-extrabold text-lg text-slate-900">📕 Toán Khối 12</div>
-          <div class="text-xs text-slate-500 mt-0.5">Học kỳ I & Học kỳ II • Giữa kỳ & Cuối kỳ</div>
+          <div class="text-xs text-slate-500 mt-0.5">GK1 • CK1 • GK2 • CK2</div>
         </button>
       </div>
     </section>
 
-    <!-- BƯỚC 2: CHỌN HỌC KỲ & KỲ KIỂM TRA -->
-    <section id="filter-section" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+    <!-- BƯỚC 2: CHỌN MỐC KIỂM TRA (GK1, CK1, GK2, CK2) -->
+    <section id="milestone-section" class="hidden bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
         <h2 id="selected-grade-heading" class="text-lg font-extrabold text-slate-900"></h2>
         <button type="button" onclick="resetHeThong()"
-          class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">
-          Đổi khối lớp
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Chọn Học kỳ -->
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-            2. Chọn học kỳ
-          </p>
-          <div class="flex gap-2">
-            <button type="button" data-sem="HK1" onclick="chonHocKy('HK1')"
-              class="sem-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition">
-              Học kỳ I
-            </button>
-            <button type="button" data-sem="HK2" onclick="chonHocKy('HK2')"
-              class="sem-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition">
-              Học kỳ II
-            </button>
-          </div>
-        </div>
-
-        <!-- Chọn Giữa kỳ / Cuối kỳ -->
-        <div>
-          <p class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">
-            3. Chọn kỳ kiểm tra
-          </p>
-          <div class="flex gap-2">
-            <button type="button" data-term="GK" onclick="chonKyKiemTra('GK')"
-              class="term-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition">
-              Đề Giữa kỳ
-            </button>
-            <button type="button" data-term="CK" onclick="chonKyKiemTra('CK')"
-              class="term-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition">
-              Đề Cuối kỳ
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- BƯỚC 3: DANH SÁCH ĐỀ -->
-    <section id="exams-section" class="hidden space-y-4">
-      <div class="flex items-center justify-between">
-        <h3 id="exams-list-title" class="text-lg font-extrabold text-slate-900"></h3>
-        <span id="exams-count-badge" class="text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-800"></span>
-      </div>
-      <div id="exams-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </section>
-
-    <!-- Trạng thái ban đầu -->
-    <div id="initial-hint" class="bg-white border-2 border-dashed border-slate-300 rounded-2xl p-9 text-center">
-      <div class="text-3xl mb-2">🎯</div>
-      <p class="font-bold text-slate-700">Hãy chọn Khối 10, Khối 11 hoặc Khối 12 ở Bước 1</p>
-      <p class="text-sm text-slate-500 mt-1">
-        Sau đó chọn Học kỳ I / Học kỳ II và Giữa kỳ / Cuối kỳ để hiển thị đúng danh sách đề khảo thí.
-      </p>
-    </div>
-
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-5 px-4 text-center text-xs sm:text-sm text-slate-500">
-    <p>© 2026 Cổng Khảo Thí Trực Tuyến Môn Toán — Khối 10, 11, 12</p>
-  </footer>
-
-  <script>
-    // =========================================================================
-    // KHO DỮ LIỆU ĐỀ KHẢO THÍ: [Khoi] -> [HocKy: HK1/HK2] -> [Ky: GK/CK]
-    // Thầy chỉ cần thêm hoặc sửa các đề trong từng nhánh tương ứng
-    // =========================================================================
-    const KHO_DE_KHAO_THI = {
-      "10": {
-        HK1: {
-          GK: [
-            { maDe: "K10-HK1-GK-01", tenDe: "Đề khảo sát Giữa kỳ I — Số 1", moTa: "Mệnh đề, tập hợp, bất phương trình bậc nhất hai ẩn và hệ bất phương trình.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" },
-            { maDe: "K10-HK1-GK-02", tenDe: "Đề khảo sát Giữa kỳ I — Số 2", moTa: "Luyện tập bài toán thực tế tối ưu và trắc nghiệm đúng/sai.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K10-HK1-CK-01", tenDe: "Đề cuối kỳ I — THPT Nguyễn Thái Bình", moTa: "Vectơ trong mặt phẳng tọa độ, tích vô hướng và hệ thức lượng tam giác.", thoiGian: "90 phút", trangThai: "Sẵn sàng", link: "KYI-VT.html" },
-            { maDe: "K10-HK1-CK-02", tenDe: "Đề ôn cuối kỳ I — Số 2", moTa: "Hàm số bậc hai, dấu tam thức bậc hai và phương pháp tọa độ.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        },
-        HK2: {
-          GK: [
-            { maDe: "K10-HK2-GK-01", tenDe: "Đề giữa kỳ II — Số 1", moTa: "Quy tắc đếm, hoán vị, chỉnh hợp, tổ hợp và nhị thức Newton.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K10-HK2-CK-01", tenDe: "Đề cuối kỳ II — Số 1", moTa: "Phương pháp tọa độ trong mặt phẳng, đường thẳng, đường tròn, ba đường conic và xác suất.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        }
-      },
-      "11": {
-        HK1: {
-          GK: [
-            { maDe: "K11-HK1-GK-01", tenDe: "Đề giữa kỳ I — Số 1", moTa: "Hàm số lượng giác, phương trình lượng giác và dãy số.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K11-HK1-CK-01", tenDe: "Đề cuối kỳ I — Số 1", moTa: "Cấp số cộng, cấp số nhân, giới hạn, hàm số liên tục và quan hệ song song.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        },
-        HK2: {
-          GK: [
-            { maDe: "K11-HK2-GK-01", tenDe: "Đề giữa kỳ II — Số 1", moTa: "Hàm số mũ, hàm số lôgarit và quan hệ vuông góc trong không gian.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K11-HK2-CK-01", tenDe: "Đề cuối kỳ II — Số 1", moTa: "Đạo hàm, quy tắc tính đạo hàm, góc và khoảng cách trong không gian, biến cố.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        }
-      },
-      "12": {
-        HK1: {
-          GK: [
-            { maDe: "K12-HK1-GK-01", tenDe: "Đề giữa kỳ I — Số 1", moTa: "Ứng dụng đạo hàm khảo sát sự biến thiên, cực trị, GTLN-GTNN và tiệm cận.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K12-HK1-CK-01", tenDe: "Đề cuối kỳ I — Số 1", moTa: "Khảo sát hàm số, vectơ và hệ trục tọa độ Oxyz, số đặc trưng mẫu ghép nhóm.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        },
-        HK2: {
-          GK: [
-            { maDe: "K12-HK2-GK-01", tenDe: "Đề giữa kỳ II — Số 1", moTa: "Nguyên hàm, tích phân, ứng dụng hình học và phương trình mặt phẳng.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ],
-          CK: [
-            { maDe: "K12-HK2-CK-01", tenDe: "Đề cuối kỳ II — Số 1", moTa: "Tổng hợp nguyên hàm - tích phân, hình học Oxyz và xác suất có điều kiện.", thoiGian: "90 phút", trangThai: "Sắp mở", link: "#" }
-          ]
-        }
-      }
-    };
-    // =========================================================================
-
-    let state = {
-      khoi: null,
-      hocKy: "HK1",
-      ky: "CK"
-    };
-
-    function chonKhoi(khoi) {
-      state.khoi = khoi;
-      document.getElementById("initial-hint").classList.add("hidden");
-      document.getElementById("filter-section").classList.remove("hidden");
-      document.getElementById("exams-section").classList.remove("hidden");
-      document.getElementById("selected-grade-heading").textContent = `Đang xem đề khảo thí — Toán Khối ${khoi}`;
-
-      capNhatNut();
-      renderDanhSachDe();
-    }
-
-    function chonHocKy(hk) {
-      state.hocKy = hk;
-      capNhatNut();
-      renderDanhSachDe();
-    }
-
-    function chonKyKiemTra(ky) {
-      state.ky = ky;
-      capNhatNut();
-      renderDanhSachDe();
-    }
-
-    function resetHeThong() {
-      state.khoi = null;
-      document.getElementById("filter-section").classList.add("hidden");
-      document.getElementById("exams-section").classList.add("hidden");
-      document.getElementById("initial-hint").classList.remove("hidden");
-      capNhatNut();
-    }
-
-    function capNhatNut() {
-      document.querySelectorAll(".grade-btn").forEach(btn => {
-        const active = btn.dataset.grade === state.khoi;
-        btn.className = active
-          ? "grade-btn p-4 rounded-xl border-2 text-left transition border-blue-600 bg-blue-50 ring-2 ring-blue-500/20"
-          : "grade-btn p-4 rounded-xl border-2 text-left transition border-slate-200 hover:border-blue-400";
-      });
-
-      document.querySelectorAll(".sem-btn").forEach(btn => {
-        const active = btn.dataset.sem === state.hocKy;
-        btn.className = active
-          ? "sem-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition bg-blue-600 text-white border-blue-600"
-          : "sem-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100";
-      });
-
-      document.querySelectorAll(".term-btn").forEach(btn => {
-        const active = btn.dataset.term === state.ky;
-        btn.className = active
-          ? "term-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition bg-indigo-600 text-white border-indigo-600"
-          : "term-btn flex-1 py-2.5 px-4 rounded-xl text-sm font-bold border transition bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100";
-      });
-    }
-
-    function renderDanhSachDe() {
-      if (!state.khoi) return;
-
-      const tenHK = state.hocKy === "HK1" ? "Học kỳ I" : "Học kỳ II";
-      const tenKy = state.ky === "GK" ? "Đề Giữa kỳ" : "Đề Cuối kỳ";
-      const danhSach = (KHO_DE_KHAO_THI[state.khoi]?.[state.hocKy]?.[state.ky]) || [];
-
-      document.getElementById("exams-list-title").textContent =
-        `Khối ${state.khoi} • ${tenHK} • ${tenKy}`;
-      document.getElementById("exams-count-badge").textContent =
-        `${danhSach.length} đề`;
-
-      const grid = document.getElementById("exams-grid");
-      if (danhSach.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full bg-white border border-slate-200 rounded-2xl p-8 text-center text-slate-500">
-            Chưa có đề nào trong mục này.
-          </div>
-        `;
-        return;
-      }
-
-      grid.innerHTML = danhSach.map(de => {
-        const isReady = de.trangThai === "Sẵn sàng" && de.link && de.link !== "#";
-        const btnHtml = isReady
-          ? `<a href="${de.link}" class="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-xl transition">
-               Vào làm bài →
-             </a>`
-          : `<button disabled class="block w-full text-center bg-slate-200 text-slate-500 font-semibold py-2.5 px-4 rounded-xl cursor-not-allowed">
-               Chưa mở đề
-             </button>`;
-
-        return `
-          <div class="card-hover bg-white rounded-2xl border border-slate-200 border-t-4 border-t-blue-600 p-5 flex flex-col justify-between shadow-sm">
-            <div>
-              <div class="flex items-center justify-between gap-2 mb-2.5">
-                <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-blue-50 text-blue-800">
-                  ${de.maDe}
-                </span>
-                <span class="text-xs font-semibold ${isReady ? 'text-emerald-600' : 'text-amber-600'}">
-                  ● ${de.trangThai}
-                </span>
-              </div>
-              <h4 class="text-base font-bold text-slate-900 mb-1.5">${de.tenDe}</h4>
-              <p class="text-sm text-slate-600 leading-relaxed mb-4">${de.moTa}</p>
-            </div>
-            <div>
-              <div class="text-xs text-slate-500 border-t border-slate-100 pt-2.5 mb-3">
-                ⏱️ Thời gian: ${de.thoiGian}
-              </div>
-              ${btnHtml}
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-  </script>
-</body>
-</html>
+          class="text-xs font-semibold px-3
